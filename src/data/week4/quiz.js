@@ -1,0 +1,97 @@
+export const quiz = {
+  id: 'quiz-semana-4',
+  title: 'Quiz de la semana 4',
+  description: '15 preguntas sobre Docker, Compose, Kubernetes y Helm. Se aprueba con 80 %.',
+  rounds: [
+    {
+      prompt: '¿Para qué sirve un Dockerfile multietapa?',
+      options: ['Para compilar más rápido', 'Para compilar con el SDK y enviar solo el runtime en la imagen final', 'Para correr varios procesos', 'Para usar varios registros'],
+      answer: 'Para compilar con el SDK y enviar solo el runtime en la imagen final',
+      why: 'La etapa de build se descarta.',
+    },
+    {
+      prompt: '¿Por qué se copian los .csproj antes que el resto del código?',
+      options: ['Por orden alfabético', 'Para que el restore quede en caché si solo cambia el código', 'Porque dotnet lo exige', 'Para reducir el tamaño final'],
+      answer: 'Para que el restore quede en caché si solo cambia el código',
+      why: 'Una capa que cambia invalida todas las siguientes.',
+    },
+    {
+      prompt: '¿En qué puerto escucha una app ASP.NET Core en las imágenes oficiales de .NET 8 en adelante?',
+      options: ['80', '5000', '8080', '443'],
+      answer: '8080',
+      why: 'Lo define ASPNETCORE_HTTP_PORTS=8080 en la imagen.',
+    },
+    {
+      prompt: '¿Qué NO trae una imagen chiseled?',
+      options: ['El runtime de .NET', 'Shell ni gestor de paquetes', 'Tu aplicación', 'Un usuario sin privilegios'],
+      answer: 'Shell ni gestor de paquetes',
+      why: 'Por eso es más chica y segura, y docker exec ... sh no funciona.',
+    },
+    {
+      prompt: '¿Dónde NO debe ir la contraseña de la base?',
+      options: ['En un Secret de Kubernetes', 'En un ENV del Dockerfile', 'En un archivo .env fuera de Git', 'En user-secrets durante el desarrollo'],
+      answer: 'En un ENV del Dockerfile',
+      why: 'Queda grabada en la imagen.',
+    },
+    {
+      prompt: 'En compose, ¿cómo se conecta la API a un servicio llamado db?',
+      options: ['Host=localhost', 'Host=db', 'Host=127.0.0.1', 'Host=host.docker.internal'],
+      answer: 'Host=db',
+      why: 'Compose crea una red donde cada servicio se resuelve por su nombre.',
+    },
+    {
+      prompt: '¿Qué hace docker compose down -v?',
+      options: ['Baja los contenedores y conserva los datos', 'Baja todo y borra los volúmenes', 'Muestra la versión', 'Reinicia todo'],
+      answer: 'Baja todo y borra los volúmenes',
+      why: 'Pierdes los datos de la base. Úsalo solo para empezar de cero.',
+    },
+    {
+      prompt: '¿Qué objeto de Kubernetes mantiene N réplicas y gestiona las actualizaciones?',
+      options: ['Pod', 'Service', 'Deployment', 'ConfigMap'],
+      answer: 'Deployment',
+      why: 'Crea ReplicaSets y hace rolling updates.',
+    },
+    {
+      prompt: '¿Cómo encuentra un Service a sus Pods?',
+      options: ['Por el nombre del Pod', 'Por labels con un selector', 'Por la IP', 'Por el namespace'],
+      answer: 'Por labels con un selector',
+      why: 'Los Pods cambian de nombre e IP; las labels se mantienen.',
+    },
+    {
+      prompt: 'Cargaste catalog-api:latest con minikube image load y el Pod queda en ImagePullBackOff. ¿Por qué?',
+      options: ['La imagen está corrupta', 'Con :latest la política es Always y la busca en Docker Hub', 'Falta un Secret', 'Minikube no soporta imágenes locales'],
+      answer: 'Con :latest la política es Always y la busca en Docker Hub',
+      why: 'Usa un tag de versión (1.0) o imagePullPolicy: IfNotPresent.',
+    },
+    {
+      prompt: '¿Qué hace Kubernetes si falla la readiness probe?',
+      options: ['Reinicia el contenedor', 'Saca el Pod del Service', 'Borra el Pod', 'Escala'],
+      answer: 'Saca el Pod del Service',
+      why: 'No lo reinicia; vuelve a recibir tráfico cuando se recupera.',
+    },
+    {
+      prompt: '¿Qué significa que un Secret esté en base64?',
+      options: ['Que está cifrado', 'Que está codificado, no cifrado', 'Que no se puede leer', 'Que solo lo lee la app'],
+      answer: 'Que está codificado, no cifrado',
+      why: 'Cualquiera lo decodifica. La protección son los permisos del clúster.',
+    },
+    {
+      prompt: 'Cambiaste un ConfigMap que se usa con envFrom. ¿Qué haces para que la app lo vea?',
+      options: ['Nada, se actualiza solo', 'kubectl rollout restart deployment/catalog-api', 'Borrar el Service', 'Reconstruir la imagen'],
+      answer: 'kubectl rollout restart deployment/catalog-api',
+      why: 'Las variables de entorno se leen al arrancar el contenedor.',
+    },
+    {
+      prompt: '¿Por qué helm upgrade --install es ideal para un pipeline?',
+      options: ['Es más rápido', 'Instala si no existe y actualiza si existe', 'No necesita values.yaml', 'Borra lo anterior'],
+      answer: 'Instala si no existe y actualiza si existe',
+      why: 'El mismo comando funciona en el primer despliegue y en todos los siguientes.',
+    },
+    {
+      prompt: '¿Para qué sirve helm template?',
+      options: ['Crear un chart nuevo', 'Ver el YAML final sin aplicarlo', 'Descargar plantillas', 'Validar el clúster'],
+      answer: 'Ver el YAML final sin aplicarlo',
+      why: 'La mejor forma de depurar plantillas.',
+    },
+  ],
+}

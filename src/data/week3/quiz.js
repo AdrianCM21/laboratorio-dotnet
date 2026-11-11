@@ -1,0 +1,90 @@
+export const quiz = {
+  id: 'quiz-semana-3',
+  title: 'Quiz de la semana 3',
+  description: '13 preguntas sobre EF Core, PostgreSQL, migraciones, consultas y configuración. Se aprueba con 80 %.',
+  rounds: [
+    {
+      prompt: '¿Por qué una API stateless necesita una base de datos externa?',
+      options: ['Para ir más rápido', 'Para que el estado sobreviva reinicios y lo compartan todas las réplicas', 'Porque EF Core lo exige', 'Para usar LINQ'],
+      answer: 'Para que el estado sobreviva reinicios y lo compartan todas las réplicas',
+      why: 'Una lista en memoria se pierde y no se comparte entre contenedores.',
+    },
+    {
+      prompt: '¿Qué paquete conecta EF Core con PostgreSQL?',
+      options: ['Microsoft.EntityFrameworkCore.SqlServer', 'Npgsql.EntityFrameworkCore.PostgreSQL', 'Dapper', 'Microsoft.Data.Sqlite'],
+      answer: 'Npgsql.EntityFrameworkCore.PostgreSQL',
+      why: 'Es el proveedor; se usa con UseNpgsql.',
+    },
+    {
+      prompt: 'En dotnet ef con Clean Architecture, ¿qué indica --startup-project?',
+      options: ['Dónde se guardan las migraciones', 'El proyecto ejecutable del que sale la configuración', 'El proyecto de pruebas', 'La base de datos destino'],
+      answer: 'El proyecto ejecutable del que sale la configuración',
+      why: '--project es donde vive el DbContext; --startup-project es la Api.',
+    },
+    {
+      prompt: '¿Qué hace HasPrecision(18, 2) sobre Price?',
+      options: ['Redondea en C#', 'Crea una columna numeric(18,2)', 'Valida el rango', 'Nada en PostgreSQL'],
+      answer: 'Crea una columna numeric(18,2)',
+      why: '18 dígitos en total, 2 decimales exactos.',
+    },
+    {
+      prompt: '¿Qué consulta trae toda la tabla a memoria antes de filtrar?',
+      options: [
+        'db.Products.Where(p => p.Stock > 0).ToListAsync()',
+        '(await db.Products.ToListAsync()).Where(p => p.Stock > 0)',
+        'db.Products.CountAsync(p => p.Stock > 0)',
+        'db.Products.AnyAsync(p => p.Stock > 0)',
+      ],
+      answer: '(await db.Products.ToListAsync()).Where(p => p.Stock > 0)',
+      why: 'ToListAsync materializa primero.',
+    },
+    {
+      prompt: '¿Cuándo usar AsNoTracking?',
+      options: ['Al modificar entidades', 'En consultas de solo lectura', 'Siempre en SaveChanges', 'Nunca'],
+      answer: 'En consultas de solo lectura',
+      why: 'Evita el costo de rastrear cambios que no vas a guardar.',
+    },
+    {
+      prompt: 'Recorres 200 pedidos y por cada uno consultas su cliente. ¿Cómo se llama el problema?',
+      options: ['Deadlock', 'N+1', 'Overposting', 'Lazy init'],
+      answer: 'N+1',
+      why: '201 consultas en vez de 1. Se arregla con Include o proyección.',
+    },
+    {
+      prompt: '¿Por qué paginar exige OrderBy?',
+      options: ['Por sintaxis de LINQ', 'Sin orden, la base puede devolver las filas en cualquier orden y las páginas se mezclan', 'Para usar índices', 'No lo exige'],
+      answer: 'Sin orden, la base puede devolver las filas en cualquier orden y las páginas se mezclan',
+      why: 'Skip/Take solo tienen sentido sobre un orden estable.',
+    },
+    {
+      prompt: '¿Qué variable de entorno sobrescribe ConnectionStrings:Default?',
+      options: ['CONNECTION_STRING', 'ConnectionStrings__Default', 'ConnectionStrings:Default', 'DB_DEFAULT'],
+      answer: 'ConnectionStrings__Default',
+      why: 'Doble guion bajo reemplaza los dos puntos.',
+    },
+    {
+      prompt: '¿Dónde va la contraseña de la base durante el desarrollo local?',
+      options: ['appsettings.json', 'appsettings.Development.json', 'User secrets', 'El código del DbContext'],
+      answer: 'User secrets',
+      why: 'Queda en tu perfil de usuario, fuera del repositorio.',
+    },
+    {
+      prompt: 'Con 3 réplicas en Kubernetes, ¿por qué evitar Database.Migrate() al arrancar?',
+      options: ['Es lento', 'Las tres réplicas intentarían migrar al mismo tiempo', 'No funciona en Linux', 'Borra los datos'],
+      answer: 'Las tres réplicas intentarían migrar al mismo tiempo',
+      why: 'Mejor un migration bundle o un Job que corra una sola vez.',
+    },
+    {
+      prompt: 'Dos POST simultáneos con el mismo SKU pasan tu validación. ¿Qué los frena?',
+      options: ['El controller', 'El índice único de la base', 'AsNoTracking', 'El DTO'],
+      answer: 'El índice único de la base',
+      why: 'Luego traduces la DbUpdateException (23505) a 409.',
+    },
+    {
+      prompt: 'La base se cae. ¿Qué debe pasar con /health/live y /health/ready?',
+      options: ['Ambos fallan', 'live sigue OK y ready falla', 'live falla y ready sigue OK', 'Ambos siguen OK'],
+      answer: 'live sigue OK y ready falla',
+      why: 'Reiniciar la API no arregla la base; solo hay que dejar de enviarle tráfico.',
+    },
+  ],
+}

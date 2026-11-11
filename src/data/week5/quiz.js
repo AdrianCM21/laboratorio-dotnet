@@ -1,0 +1,101 @@
+export const quiz = {
+  id: 'quiz-semana-5',
+  title: 'Quiz de la semana 5',
+  description: '14 preguntas sobre logs, Serilog, Seq y CI/CD. Se aprueba con 80 %.',
+  rounds: [
+    {
+      prompt: '¿Qué ventaja tiene un log estructurado?',
+      options: ['Ocupa menos espacio', 'Sus propiedades se pueden filtrar y consultar', 'Se escribe más rápido', 'No necesita nivel'],
+      answer: 'Sus propiedades se pueden filtrar y consultar',
+      why: 'ProductId = 42 en vez de buscar texto con regex.',
+    },
+    {
+      prompt: '¿Cuál de estas líneas genera la propiedad ProductId?',
+      options: [
+        'logger.LogInformation($"Producto {productId} creado");',
+        'logger.LogInformation("Producto {ProductId} creado", productId);',
+        'logger.LogInformation("Producto " + productId + " creado");',
+        'Console.WriteLine(productId);',
+      ],
+      answer: 'logger.LogInformation("Producto {ProductId} creado", productId);',
+      why: 'Solo el message template conserva el valor como propiedad.',
+    },
+    {
+      prompt: 'Un cliente pide un producto que no existe. ¿Qué nivel corresponde?',
+      options: ['Error', 'Fatal', 'Information o Warning', 'Ninguno, no se loguea'],
+      answer: 'Information o Warning',
+      why: 'El sistema funcionó bien; no es una falla.',
+    },
+    {
+      prompt: '¿Cómo se loguea correctamente una excepción?',
+      options: ['logger.LogError(ex.Message)', 'logger.LogError(ex, "Falló {OrderId}", id)', 'logger.LogError(ex.ToString())', 'logger.LogWarning(ex)'],
+      answer: 'logger.LogError(ex, "Falló {OrderId}", id)',
+      why: 'La excepción primero: se guarda el stack trace completo.',
+    },
+    {
+      prompt: '¿Para qué sirve MinimumLevel.Override de Microsoft.AspNetCore en Warning?',
+      options: ['Ocultar los errores', 'Silenciar el ruido informativo del framework', 'Subir el nivel de tu app', 'Desactivar Seq'],
+      answer: 'Silenciar el ruido informativo del framework',
+      why: 'Tus logs siguen en Information.',
+    },
+    {
+      prompt: '¿Qué agrega UseSerilogRequestLogging?',
+      options: ['Un evento por petición con método, ruta, status y duración', 'Logs de la base de datos', 'Autenticación', 'Métricas de CPU'],
+      answer: 'Un evento por petición con método, ruta, status y duración',
+      why: 'Reemplaza varias líneas del framework por una sola, con propiedades.',
+    },
+    {
+      prompt: '¿Por qué conviene WriteTo con claves con nombre ("Seq": {...}) en lugar de un arreglo?',
+      options: ['Es más rápido', 'Permite sobrescribir un sink con una variable de entorno como Serilog__WriteTo__Seq__Args__serverUrl', 'Es obligatorio', 'Para usar varios niveles'],
+      answer: 'Permite sobrescribir un sink con una variable de entorno como Serilog__WriteTo__Seq__Args__serverUrl',
+      why: 'Con arreglo dependerías de índices (WriteTo__1__...), frágiles.',
+    },
+    {
+      prompt: 'En Kubernetes, ¿a qué URL envía logs tu API si Seq tiene un Service llamado seq?',
+      options: ['http://localhost:5341', 'http://seq:5341', 'http://seq:80/ingest', 'http://minikube:5341'],
+      answer: 'http://seq:5341',
+      why: 'El DNS del clúster resuelve el nombre del Service; 5341 es el puerto de ingesta.',
+    },
+    {
+      prompt: '¿Qué filtro de Seq muestra solo los errores?',
+      options: ["@Level = 'Error'", 'level:error', "Level == 'ERR'", 'errors only'],
+      answer: "@Level = 'Error'",
+      why: '@Level es una propiedad incorporada.',
+    },
+    {
+      prompt: '¿Qué diferencia a la integración continua del despliegue continuo?',
+      options: [
+        'Ninguna',
+        'CI compila y prueba cada cambio; el despliegue continuo además lo publica en un ambiente',
+        'CI solo corre de noche',
+        'El despliegue continuo no usa tests',
+      ],
+      answer: 'CI compila y prueba cada cambio; el despliegue continuo además lo publica en un ambiente',
+      why: 'CI es la base; CD agrega el despliegue.',
+    },
+    {
+      prompt: 'En un workflow, ¿qué hace needs: build?',
+      options: ['Instala dependencias', 'Hace que el job espere a que build termine bien', 'Repite el job build', 'Comparte archivos'],
+      answer: 'Hace que el job espere a que build termine bien',
+      why: 'Si build falla, el job dependiente no corre.',
+    },
+    {
+      prompt: '¿Dónde va la contraseña que usa el workflow?',
+      options: ['En el YAML', 'En los Secrets del repositorio', 'En el README', 'En un comentario'],
+      answer: 'En los Secrets del repositorio',
+      why: 'Se usa con secrets.NOMBRE y GitHub la oculta en los logs.',
+    },
+    {
+      prompt: '¿Con qué etiqueta conviene publicar cada imagen?',
+      options: ['Solo latest', 'El SHA del commit (y la versión SemVer en releases)', 'La fecha', 'El nombre del desarrollador'],
+      answer: 'El SHA del commit (y la versión SemVer en releases)',
+      why: 'Sabes exactamente qué código corre y puedes volver atrás.',
+    },
+    {
+      prompt: 'Quitas un campo de la respuesta en la versión 1.4.2. ¿Qué versión sigue?',
+      options: ['1.4.3', '1.5.0', '2.0.0', '1.4.2-b'],
+      answer: '2.0.0',
+      why: 'Un cambio que rompe el contrato sube la versión MAYOR.',
+    },
+  ],
+}

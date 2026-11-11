@@ -1,0 +1,106 @@
+export const quiz = {
+  id: 'quiz-semana-2',
+  title: 'Quiz de la semana 2',
+  description: '14 preguntas sobre diseño REST, DTOs, DI, capas, errores y OpenAPI. Se aprueba con 80 %.',
+  rounds: [
+    {
+      prompt: '¿Qué debe devolver un POST que creó un recurso?',
+      options: ['200 con el recurso', '201 con el recurso y el header Location', '204 sin cuerpo', '202 Accepted'],
+      answer: '201 con el recurso y el header Location',
+      why: 'CreatedAtAction arma ambos.',
+    },
+    {
+      prompt: '¿Cuándo corresponde publicar una v2 de la API?',
+      options: ['Al agregar un endpoint nuevo', 'Al agregar un campo opcional', 'Al quitar un campo de la respuesta', 'Al corregir un bug'],
+      answer: 'Al quitar un campo de la respuesta',
+      why: 'Quitar un campo rompe a los clientes existentes. Agregar no rompe nada.',
+    },
+    {
+      prompt: '¿Qué hace [ApiController] cuando el DTO no pasa la validación?',
+      options: ['Ejecuta la action igual', 'Responde 400 con ValidationProblemDetails', 'Responde 500', 'Responde 422 vacío'],
+      answer: 'Responde 400 con ValidationProblemDetails',
+      why: 'La action ni se ejecuta.',
+    },
+    {
+      prompt: '¿Qué es overposting?',
+      options: [
+        'Enviar demasiadas peticiones por segundo',
+        'Que el cliente asigne campos que no debería, como Id, al recibir la entidad',
+        'Un POST con cuerpo vacío',
+        'Usar POST en vez de PUT',
+      ],
+      answer: 'Que el cliente asigne campos que no debería, como Id, al recibir la entidad',
+      why: 'Por eso se reciben DTOs con solo los campos permitidos.',
+    },
+    {
+      prompt: '¿Con qué ciclo de vida se registra el DbContext?',
+      options: ['Singleton', 'Scoped', 'Transient'],
+      answer: 'Scoped',
+      why: 'Una instancia por petición.',
+    },
+    {
+      prompt: 'En Clean Architecture, ¿qué capa no depende de ninguna otra?',
+      options: ['Api', 'Infrastructure', 'Application', 'Domain'],
+      answer: 'Domain',
+      why: 'Las dependencias apuntan hacia adentro: Domain es el centro.',
+    },
+    {
+      prompt: '¿Dónde va la implementación del repositorio con EF Core?',
+      options: ['Domain', 'Application', 'Infrastructure', 'Api'],
+      answer: 'Infrastructure',
+      why: 'Implementa la interfaz que define Application.',
+    },
+    {
+      prompt: '¿Por qué Api referencia a Infrastructure?',
+      options: [
+        'Para que los controllers usen EF Core directo',
+        'Para registrar sus servicios en DI al arrancar',
+        'No debería referenciarla nunca',
+        'Para compartir los DTOs',
+      ],
+      answer: 'Para registrar sus servicios en DI al arrancar',
+      why: 'Api es la «composition root». Los controllers siguen hablando solo con Application.',
+    },
+    {
+      prompt: '¿Qué formato estándar usan los errores en ASP.NET Core?',
+      options: ['ErrorResponse', 'ProblemDetails (RFC 9457)', 'JSON:API errors', 'Texto plano'],
+      answer: 'ProblemDetails (RFC 9457)',
+      why: 'Con AddProblemDetails todos los errores comparten forma.',
+    },
+    {
+      prompt: '¿Dónde va UseExceptionHandler en el pipeline?',
+      options: ['Al final', 'Al principio', 'Después de MapControllers', 'Da igual'],
+      answer: 'Al principio',
+      why: 'Solo atrapa lo que falle en los middlewares que vienen después.',
+    },
+    {
+      prompt: 'Una excepción inesperada llega al handler global. ¿Qué responde?',
+      options: [
+        '500 con el mensaje de la excepción',
+        '500 con un mensaje genérico, y el detalle va al log',
+        '400 con el stack trace',
+        '200 con un campo error',
+      ],
+      answer: '500 con un mensaje genérico, y el detalle va al log',
+      why: 'Así no hay leaks y el traceId permite encontrar el log.',
+    },
+    {
+      prompt: '¿Qué agrega [ProducesResponseType] al proyecto?',
+      options: ['Validación', 'Documenta en OpenAPI el código y el tipo de respuesta', 'Cambia el código de estado', 'Cachea la respuesta'],
+      answer: 'Documenta en OpenAPI el código y el tipo de respuesta',
+      why: 'No cambia el comportamiento: describe el contrato.',
+    },
+    {
+      prompt: '¿Qué propiedad del .csproj lleva tus comentarios /// al documento OpenAPI en .NET 10?',
+      options: ['GenerateDocumentationFile', 'EnableOpenApiComments', 'IncludeXmlDocs', 'Nullable'],
+      answer: 'GenerateDocumentationFile',
+      why: 'El generador incluido en Microsoft.AspNetCore.OpenApi hace el resto.',
+    },
+    {
+      prompt: '¿Por qué no usar .Result en una API?',
+      options: ['Es más lento de escribir', 'Bloquea hilos y bajo carga cuelga la API', 'No compila', 'Pierde el CancellationToken'],
+      answer: 'Bloquea hilos y bajo carga cuelga la API',
+      why: 'Usa await de punta a punta.',
+    },
+  ],
+}
